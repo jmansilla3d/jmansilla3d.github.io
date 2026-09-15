@@ -1,10 +1,11 @@
 const dialog=document.querySelector('#project-dialog');
+function openProject(project){document.querySelector('#detail-image').src=project.image;document.querySelector('#detail-image').alt=project.alt;document.querySelector('#detail-title').textContent=project.title;document.querySelector('#detail-role').textContent=project.category+' · '+project.year+(project.company?' · '+project.company:'');document.querySelector('#detail-note').textContent=project.note;document.querySelector('#detail-source').href=project.source;const gallery=document.querySelector('#detail-gallery');gallery.replaceChildren();(project.gallery||[]).forEach((src,i)=>{const img=document.createElement('img');img.src=src;img.alt=project.title+' — production still '+(i+2);img.loading='lazy';gallery.appendChild(img);});dialog.showModal();dialog.scrollTop=0;}
 function renderProjects(items,target){
 const grid=document.querySelector(target);
 items.forEach((project,index)=>{
  const button=document.createElement('button');button.className='project';
  button.innerHTML=`<div class="project-visual"><img src="${project.image}" alt="${project.alt}" loading="lazy"><span aria-hidden="true">↗</span></div><h3>${project.title}</h3><p>${project.category} · ${project.year}${project.company ? " · " + project.company : ""}</p>`;
- button.addEventListener('click',()=>{document.querySelector('#detail-image').src=project.image;document.querySelector('#detail-image').alt=project.alt;document.querySelector('#detail-title').textContent=project.title;document.querySelector('#detail-role').textContent=project.category+' · '+project.year+(project.company?' · '+project.company:'');document.querySelector('#detail-note').textContent=project.note;document.querySelector('#detail-source').href=project.source;const gallery=document.querySelector('#detail-gallery');gallery.replaceChildren();(project.gallery||[]).forEach((src,i)=>{const img=document.createElement('img');img.src=src;img.alt=project.title+' — production still '+(i+2);img.loading='lazy';gallery.appendChild(img);});dialog.showModal();dialog.scrollTop=0;});grid.appendChild(button);
+ button.addEventListener('click',()=>{openProject(project);});grid.appendChild(button);
 });
 }
 renderProjects(projects,'#projects');
@@ -32,3 +33,11 @@ motionButton.addEventListener('click',()=>{
 reducedMotion.addEventListener('change',()=>{if(reducedMotion.matches){heroVideo.pause();motionButton.hidden=true;}else if(!motionPaused)startHero();});
 new IntersectionObserver(entries=>{if(!entries[0].isIntersecting)heroVideo.pause();else if(!motionPaused)startHero();},{threshold:0.05}).observe(heroVideo);
 document.addEventListener('visibilitychange',()=>{if(document.hidden)heroVideo.pause();else if(!motionPaused&&heroVideo.getBoundingClientRect().bottom>0)startHero();});
+const zohCard=document.querySelector('#zoh-project');
+zohCard.addEventListener('click',()=>openProject({
+ title:'The Zone of Hope',category:'Interactive VR',year:'2018',company:'Mediapro · Aigües de Barcelona',
+ image:'zoh.jpg',alt:'The Zone of Hope — immersive experience by Mediapro Exhibitions',
+ gallery:['zoh-gallery-1.jpg','zoh-gallery-2.jpg','zoh-gallery-3.jpg','zoh-gallery-4.jpg'],
+ note:'An immersive climate-change experience combining physical and virtual spaces, interactive environments, 360° imagery and visual effects at 90 frames per second. Spatial sound and tactile, wind, temperature and humidity effects bring the journey to life. Designed and produced by Mediapro Exhibitions for Aigües de Barcelona, with an original concept by Mediapro Brands and VR technology by Labsid/MVR. Images courtesy of Mediapro Exhibitions.',
+ source:'https://mediaproexhibitions.com/es/project/zoh'
+}));
