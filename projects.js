@@ -125,7 +125,7 @@ const animationProjects = [
     "title": "Donkey Xote",
     "year": "2007",
     "category": "Animated feature · Filmax",
-    "image": "donkey-xote.webp",
+    "image": "donkey-xote-poster.png",
     "alt": "Donkey Xote — production image",
     "note": "Lead Lighting / Senior Look Development, as credited on Javier’s Behance project. Film year verified with Filmax. Stills supplied from Javier’s Donkey Xote archive.",
     "source": "https://www.behance.net/gallery/8036523/Donkey-Xote-Film",
