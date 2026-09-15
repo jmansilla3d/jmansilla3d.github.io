@@ -41,3 +41,22 @@ zohCard.addEventListener('click',()=>openProject({
  note:'An immersive climate-change experience combining physical and virtual spaces, interactive environments, 360° imagery and visual effects at 90 frames per second. Spatial sound and tactile, wind, temperature and humidity effects bring the journey to life. Designed and produced by Mediapro Exhibitions for Aigües de Barcelona, with an original concept by Mediapro Brands and VR technology by Labsid/MVR. Images courtesy of Mediapro Exhibitions.',
  source:'https://mediaproexhibitions.com/es/project/zoh'
 }));
+
+// About montage loads only when visible and pauses outside the viewport.
+const aboutVideo=document.querySelector('#about-video');
+const aboutMotion=document.querySelector('#about-motion');
+let aboutVisible=false,aboutPaused=false;
+function syncAbout(){
+ if(!aboutVisible||aboutPaused||document.hidden||reducedMotion.matches||navigator.connection?.saveData){aboutVideo.pause();return;}
+ aboutVideo.muted=true;
+ if(!aboutVideo.getAttribute('src'))aboutVideo.src=aboutVideo.dataset.src;
+ aboutMotion.hidden=false;
+ aboutVideo.play().then(()=>{aboutMotion.textContent='Pause motion Ⅱ';aboutMotion.setAttribute('aria-label','Pause About background video');}).catch(()=>{aboutMotion.textContent='Play motion ▶';aboutMotion.setAttribute('aria-label','Play About background video');});
+}
+aboutMotion.addEventListener('click',()=>{
+ aboutPaused=!aboutVideo.paused;
+ if(aboutPaused){aboutVideo.pause();aboutMotion.textContent='Play motion ▶';aboutMotion.setAttribute('aria-label','Play About background video');}else syncAbout();
+});
+new IntersectionObserver(entries=>{aboutVisible=entries[0].isIntersecting;syncAbout();},{threshold:.05}).observe(aboutVideo);
+document.addEventListener('visibilitychange',syncAbout);
+reducedMotion.addEventListener('change',()=>{aboutMotion.hidden=reducedMotion.matches;syncAbout();});
