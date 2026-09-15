@@ -34,3 +34,5 @@
 @media(prefers-reduced-motion:reduce){.about-video{display:none}}
 
 .about>div{text-shadow:0 2px 4px #000,0 0 14px #000b}
+
+.hero-shade{opacity:.5}
